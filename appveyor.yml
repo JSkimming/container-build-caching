@@ -24,6 +24,10 @@ branches:
 # Operating system (build VM template)
 image: Visual Studio 2017
 
+environment:
+  DOCKER_PASSWORD:
+    secure: ZCFmnM2XKB52rllik1s5OvzxqVvQC8cFmOO5LoT0VPkKnNmkjEtxdt2AlFEORJPw
+
 # scripts that are called at very beginning, before repo cloning
 init:
   # This gives the login details for the build instance so you can RDP to it.
@@ -48,12 +52,15 @@ services:
 #       build configuration       #
 #---------------------------------#
 before_build:
+  - docker login appcyc.azurecr.io --username appcyc --password %DOCKER_PASSWORD%
   - docker image list
 
 build_script:
   - docker build -t cbc-identity:%APPVEYOR_BUILD_VERSION% -t appcyc.azurecr.io/cbc-identity:%APPVEYOR_BUILD_VERSION% -t appcyc.azurecr.io/cbc-identity:latest .
 
 after_build:
+  - docker push appcyc.azurecr.io/cbc-identity:%APPVEYOR_BUILD_VERSION%
+  - docker push appcyc.azurecr.io/cbc-identity:latest
   - docker image list
 
 #---------------------------------#
