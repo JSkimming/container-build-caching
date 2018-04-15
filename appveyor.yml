@@ -34,6 +34,9 @@ init:
   #- ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
   - git config --global core.autocrlf input
 
+# http://blog.appveyor.com/2014/06/04/shallow-clone-for-git-repositories/
+shallow_clone: true
+
 configuration: Release
 
 # enable service required for build/tests
@@ -54,14 +57,14 @@ services:
 before_build:
   - docker login appcyc.azurecr.io --username appcyc --password %DOCKER_PASSWORD%
   - docker pull appcyc.azurecr.io/cbc-identity-build:latest
-  - docker tag appcyc.azurecr.io/cbc-identity-build:latest cbc-identity-build:previous
   - docker pull appcyc.azurecr.io/cbc-identity:latest
+  - docker tag appcyc.azurecr.io/cbc-identity-build:latest cbc-identity-build:previous
   - docker tag appcyc.azurecr.io/cbc-identity:latest cbc-identity:previous
   - docker image list
 
 build_script:
-  - docker build -f ./build/Dockerfile.identity.build -t cbc-identity-build:%APPVEYOR_BUILD_VERSION% -t cbc-identity-build:latest -t appcyc.azurecr.io/cbc-identity-build:%APPVEYOR_BUILD_VERSION% -t appcyc.azurecr.io/cbc-identity-build:latest .
-  - docker build -f ./build/Dockerfile.identity.package -t cbc-identity:%APPVEYOR_BUILD_VERSION% -t appcyc.azurecr.io/cbc-identity:%APPVEYOR_BUILD_VERSION% -t appcyc.azurecr.io/cbc-identity:latest .
+  - docker build --cache-from cbc-identity-build:previous -f ./build/Dockerfile.identity.build -t cbc-identity-build:latest -t appcyc.azurecr.io/cbc-identity-build:%APPVEYOR_BUILD_VERSION% -t appcyc.azurecr.io/cbc-identity-build:latest .
+  - docker build --cache-from cbc-identity:previous -f ./build/Dockerfile.identity.package -t cbc-identity:latest -t appcyc.azurecr.io/cbc-identity:%APPVEYOR_BUILD_VERSION% -t appcyc.azurecr.io/cbc-identity:latest .
 
 after_build:
   - docker push appcyc.azurecr.io/cbc-identity-build:%APPVEYOR_BUILD_VERSION%
