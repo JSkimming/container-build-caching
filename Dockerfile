@@ -13,7 +13,9 @@ COPY ./src/Cbc.Identity/Cbc.Identity.csproj ./src/Cbc.Identity/Cbc.Identity.cspr
 # Run restore on just the project files, this should cache the image after restore.
 RUN dotnet restore
 
-COPY . .
+COPY ./src/stylecop.json ./src/stylecop.json
+COPY ./src/stylecop.ruleset ./src/stylecop.ruleset
+COPY ./src/Cbc.Identity/ ./src/Cbc.Identity/
 
 # Publish application
 RUN dotnet publish src/Cbc.Identity/Cbc.Identity.csproj --output ../../out/ --configuration Release --no-restore
