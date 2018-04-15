@@ -53,6 +53,7 @@ services:
 #---------------------------------#
 before_build:
   - docker login appcyc.azurecr.io --username appcyc --password %DOCKER_PASSWORD%
+  - docker pull appcyc.azurecr.io/cbc-identity:latest
   - docker image list
 
 build_script:
