@@ -1,5 +1,3 @@
-# -- Stage 1 - Build and Publish the identity project --
-
 FROM microsoft/aspnetcore-build:2.0.0 as identity-build
 
 ENV DOTNET_SKIP_FIRST_TIME_EXPERIENCE=true
@@ -19,16 +17,3 @@ COPY ./src/Cbc.Identity/ ./src/Cbc.Identity/
 
 # Publish application
 RUN dotnet publish src/Cbc.Identity/Cbc.Identity.csproj --output ../../out/ --configuration Release --no-restore
-
-# -- Stage 2 - Optimized Image suitable for Deployment --
-
-FROM microsoft/aspnetcore:2.0.0
-
-ENV DOTNET_SKIP_FIRST_TIME_EXPERIENCE=true
-
-WORKDIR /app
-EXPOSE 80
-
-COPY --from=identity-build ./publish/out .
-
-ENTRYPOINT ["dotnet", "Cbc.Identity.dll"]

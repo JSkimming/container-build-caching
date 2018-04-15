@@ -1,0 +1,16 @@
+# -- Stage 1 - Pickup the build latest
+
+FROM cbc-identity-build:latest as build
+
+# -- Stage 2 - Optimized Image suitable for Deployment --
+
+FROM microsoft/aspnetcore:2.0.0
+
+ENV DOTNET_SKIP_FIRST_TIME_EXPERIENCE=true
+
+WORKDIR /app
+EXPOSE 80
+
+COPY --from=build ./publish/out .
+
+ENTRYPOINT ["dotnet", "Cbc.Identity.dll"]
