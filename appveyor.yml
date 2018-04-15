@@ -47,9 +47,14 @@ services:
 #---------------------------------#
 #       build configuration       #
 #---------------------------------#
+before_build:
+  - docker image list
 
 build_script:
-  - docker build .
+  - docker build -t cbc-identity:%APPVEYOR_BUILD_VERSION% -t appcyc.azurecr.io/cbc-identity:%APPVEYOR_BUILD_VERSION% -t appcyc.azurecr.io/cbc-identity:latest .
+
+after_build:
+  - docker image list
 
 #---------------------------------#
 #      artifacts configuration    #
