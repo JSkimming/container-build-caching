@@ -40,7 +40,7 @@ namespace Cbc.Identity
             }
             catch (Exception ex)
             {
-                Log.Fatal(ex, "Host terminated unexpectedly");
+                Log.Fatal(ex, "Host terminated unexpectedly.");
             }
             finally
             {
