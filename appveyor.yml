@@ -56,22 +56,9 @@ services:
 #---------------------------------#
 before_build:
   - docker login appcyc.azurecr.io --username appcyc --password %DOCKER_PASSWORD%
-  - docker pull appcyc.azurecr.io/cbc-identity-build:latest
-  - docker pull appcyc.azurecr.io/cbc-identity:latest
-  - docker tag appcyc.azurecr.io/cbc-identity-build:latest cbc-identity-build:previous
-  - docker tag appcyc.azurecr.io/cbc-identity:latest cbc-identity:previous
-  - docker image list
 
 build_script:
-  - docker build --cache-from cbc-identity-build:previous -f ./build/Dockerfile.identity.build -t cbc-identity-build:latest -t appcyc.azurecr.io/cbc-identity-build:%APPVEYOR_BUILD_VERSION% -t appcyc.azurecr.io/cbc-identity-build:latest .
-  - docker build --cache-from cbc-identity:previous -f ./build/Dockerfile.identity.package -t cbc-identity:latest -t appcyc.azurecr.io/cbc-identity:%APPVEYOR_BUILD_VERSION% -t appcyc.azurecr.io/cbc-identity:latest .
-
-after_build:
-  - docker push appcyc.azurecr.io/cbc-identity-build:%APPVEYOR_BUILD_VERSION%
-  - docker push appcyc.azurecr.io/cbc-identity-build:latest
-  - docker push appcyc.azurecr.io/cbc-identity:%APPVEYOR_BUILD_VERSION%
-  - docker push appcyc.azurecr.io/cbc-identity:latest
-  - docker image list
+  - ps: .\build.ps1 $Env:APPVEYOR_BUILD_VERSION
 
 #---------------------------------#
 #      artifacts configuration    #
