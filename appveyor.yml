@@ -60,7 +60,7 @@ before_build:
   - ps: docker login appcyc.azurecr.io --username appcyc --password $Env:DOCKER_PASSWORD
 
 build_script:
-  - ps: .\build.ps1 $Env:APPVEYOR_BUILD_VERSION
+  - ps: .\build.ps1 $Env:APPVEYOR_BUILD_VERSION "win"
 
 #---------------------------------#
 #      artifacts configuration    #
