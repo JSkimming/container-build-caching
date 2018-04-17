@@ -16,26 +16,33 @@ namespace Cbc.Identity.Controllers
     [Route("api/[controller]")]
     public class ValuesController : Controller
     {
+        private readonly IHello _hello;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ValuesController"/> class.
         /// </summary>
-        public ValuesController()
+        /// <param name="hello">The <see cref="IHello"/> service.</param>
+        public ValuesController(IHello hello)
         {
+            _hello = hello ?? throw new ArgumentNullException(nameof(hello));
         }
 
         /// <summary>
         /// Gets the test values.
         /// </summary>
+        /// <param name="name">Someone's name.</param>
         /// <returns>The test values.</returns>
         /// <remarks><code>
         /// GET: api/values
         /// </code></remarks>
         [HttpGet]
-        public async Task<IEnumerable<string>> GetAsync()
+        public async Task<IEnumerable<string>> GetAsync(string name = null)
         {
             await Task.Yield();
-            await Task.Delay(10).ConfigureAwait(false);
-            return new[] { "value1", "value2" };
+
+            string message = await _hello.GetMessageAsync(name ?? "nobody");
+
+            return new[] { message };
         }
 
         /// <summary>

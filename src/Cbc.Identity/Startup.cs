@@ -114,6 +114,8 @@ namespace Cbc.Identity
                 }
             });
 
+            services.AddSingleton<IHello, Hello>();
+
             return services.BuildServiceProvider();
         }
 
