@@ -46,8 +46,8 @@ function RunBuild ([string] $image) {
 
     # Push to the repository
 
-    $previousBuildImage = & docker images appcyc.azurecr.io/cbc-$imagePrefix-$image-build:previous -q --no-trunc | Out-String
-    $latestBuildImage = & docker images appcyc.azurecr.io/cbc-$imagePrefix-$image-build:latest -q --no-trunc | Out-String
+    $previousBuildImage = & docker images appcyc.azurecr.io/cbc-$imagePrefix-$image-build:previous -q --no-trunc | Out-String | ForEach-Object { $_.Trim() }
+    $latestBuildImage = & docker images appcyc.azurecr.io/cbc-$imagePrefix-$image-build:latest -q --no-trunc | Out-String | ForEach-Object { $_.Trim() }
     if ($latestBuildImage -eq $previousBuildImage) {
         Write-Host "The build image has not changed '$latestBuildImage'."
     }
@@ -76,6 +76,7 @@ function RunBuild ([string] $image) {
 ExecuteCommand "docker pull microsoft/aspnetcore-build:2.0.0"
 ExecuteCommand "docker pull microsoft/aspnetcore:2.0.0"
 
+RunBuild "api"
 RunBuild "identity"
 
 ExecuteCommand "docker image list"
