@@ -1,0 +1,39 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27428.2027
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{CAC802E8-17AD-43C2-86B0-BD7EED682B1B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{20C66A0C-05D3-4987-9211-3566195F99DA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cbc.Api", "src\Cbc.Api\Cbc.Api.csproj", "{00EDEC37-C73D-47BB-A971-4A8D9AF39319}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cbc.Common", "src\Cbc.Common\Cbc.Common.csproj", "{F65EAF67-84E8-4363-B303-3F8CF8C375BE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{00EDEC37-C73D-47BB-A971-4A8D9AF39319}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00EDEC37-C73D-47BB-A971-4A8D9AF39319}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00EDEC37-C73D-47BB-A971-4A8D9AF39319}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00EDEC37-C73D-47BB-A971-4A8D9AF39319}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F65EAF67-84E8-4363-B303-3F8CF8C375BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F65EAF67-84E8-4363-B303-3F8CF8C375BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F65EAF67-84E8-4363-B303-3F8CF8C375BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F65EAF67-84E8-4363-B303-3F8CF8C375BE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{00EDEC37-C73D-47BB-A971-4A8D9AF39319} = {CAC802E8-17AD-43C2-86B0-BD7EED682B1B}
+		{F65EAF67-84E8-4363-B303-3F8CF8C375BE} = {CAC802E8-17AD-43C2-86B0-BD7EED682B1B}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {68FC7DBA-9DEF-4E1B-8016-7184AEAA8A03}
+	EndGlobalSection
+EndGlobal
