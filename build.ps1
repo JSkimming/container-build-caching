@@ -1,6 +1,7 @@
 Param (
     [string] $buildVersion = "0.0.0.1",
-    [string] $imagePrefix = "linux"
+    [string] $imagePrefix = "linux",
+    [bool] $pushOnSuccess = $false
 )
 
 function IsNotCiBuild {
@@ -51,19 +52,19 @@ function RunBuild ([string] $image) {
     if ($latestBuildImage -eq $previousBuildImage) {
         Write-Host "The build image has not changed '$latestBuildImage'."
     }
-    else {
+    elseif ($pushOnSuccess) {
         Write-Host "Pushing the new build image 'appcyc.azurecr.io/cbc-$imagePrefix-$image-build:latest'."
         ExecuteCommand "docker push appcyc.azurecr.io/cbc-$imagePrefix-$image-build:$buildVersion"
         ExecuteCommand "docker push appcyc.azurecr.io/cbc-$imagePrefix-$image-build:latest"
     }
 
-    $previousImage = & docker images appcyc.azurecr.io/cbc-$imagePrefix-$image`:previous -q --no-trunc | Out-String
-    $latestImage = & docker images appcyc.azurecr.io/cbc-$imagePrefix-$image`:latest -q --no-trunc | Out-String
+    $previousImage = & docker images appcyc.azurecr.io/cbc-$imagePrefix-$image`:previous -q --no-trunc | Out-String | ForEach-Object { $_.Trim() }
+    $latestImage = & docker images appcyc.azurecr.io/cbc-$imagePrefix-$image`:latest -q --no-trunc | Out-String | ForEach-Object { $_.Trim() }
     if ($latestImage -eq $previousImage) {
         Write-Host "The image has not changed '$latestImage'."
         return $false
     }
-    else {
+    elseif ($pushOnSuccess) {
         Write-Host "Pushing the new image 'appcyc.azurecr.io/cbc-$imagePrefix-$image`:latest'."
         ExecuteCommand "docker push appcyc.azurecr.io/cbc-$imagePrefix-$image`:$buildVersion"
         ExecuteCommand "docker push appcyc.azurecr.io/cbc-$imagePrefix-$image`:latest"
