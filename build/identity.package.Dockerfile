@@ -1,6 +1,6 @@
 # -- Stage 1 - Pickup the build latest
 
-FROM cbc-identity-build:latest as build
+FROM cbc-identity-build-intermediate as build
 
 # -- Stage 2 - Optimized Image suitable for Deployment --
 
