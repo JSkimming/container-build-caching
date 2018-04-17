@@ -9,6 +9,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{20C66A0C-0
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cbc.Identity", "src\Cbc.Identity\Cbc.Identity.csproj", "{81B286B7-0565-4321-BDB2-4C90F7D78B57}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cbc.Common", "src\Cbc.Common\Cbc.Common.csproj", "{F65EAF67-84E8-4363-B303-3F8CF8C375BE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,12 +21,17 @@ Global
 		{81B286B7-0565-4321-BDB2-4C90F7D78B57}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{81B286B7-0565-4321-BDB2-4C90F7D78B57}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{81B286B7-0565-4321-BDB2-4C90F7D78B57}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F65EAF67-84E8-4363-B303-3F8CF8C375BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F65EAF67-84E8-4363-B303-3F8CF8C375BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F65EAF67-84E8-4363-B303-3F8CF8C375BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F65EAF67-84E8-4363-B303-3F8CF8C375BE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{81B286B7-0565-4321-BDB2-4C90F7D78B57} = {CAC802E8-17AD-43C2-86B0-BD7EED682B1B}
+		{F65EAF67-84E8-4363-B303-3F8CF8C375BE} = {CAC802E8-17AD-43C2-86B0-BD7EED682B1B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {68FC7DBA-9DEF-4E1B-8016-7184AEAA8A03}
