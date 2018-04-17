@@ -65,13 +65,13 @@ for:
     only:
       - image: Ubuntu
   build_script:
-  - ps: .\build.ps1 $Env:APPVEYOR_BUILD_VERSION "linux"
+  - ps: .\build.ps1 $Env:APPVEYOR_BUILD_VERSION "linux" $true
 -
   matrix:
     except:
       - image: Ubuntu
   build_script:
-  - ps: .\build.ps1 $Env:APPVEYOR_BUILD_VERSION "win"
+  - ps: .\build.ps1 $Env:APPVEYOR_BUILD_VERSION "win" $true
 
 #---------------------------------#
 #      artifacts configuration    #
