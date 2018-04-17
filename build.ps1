@@ -38,8 +38,11 @@ function RunBuild ([string] $image) {
     ExecuteCommand "docker tag appcyc.azurecr.io/cbc-$imagePrefix-$image`:latest cbc-$imagePrefix-$image`:previous"
 
     # Run the build
-    ExecuteCommand "docker build --cache-from cbc-$imagePrefix-$image-build:previous -f ./build/$image.build.Dockerfile -t cbc-$imagePrefix-$image-build:latest -t appcyc.azurecr.io/cbc-$imagePrefix-$image-build:$buildVersion -t appcyc.azurecr.io/cbc-$imagePrefix-$image-build:latest ."
-    ExecuteCommand "docker build --cache-from cbc-$imagePrefix-$image`:previous -f ./build/$image.package.Dockerfile -t cbc-$imagePrefix-$image`:latest -t appcyc.azurecr.io/cbc-$imagePrefix-$image`:$buildVersion -t appcyc.azurecr.io/cbc-$imagePrefix-$image`:latest ."
+    ExecuteCommand "docker build -f ./build/$image.build.Dockerfile --cache-from cbc-$imagePrefix-$image-build:previous -t cbc-$image-build-intermediate -t cbc-$imagePrefix-$image-build:latest -t appcyc.azurecr.io/cbc-$imagePrefix-$image-build:$buildVersion -t appcyc.azurecr.io/cbc-$imagePrefix-$image-build:latest ."
+    ExecuteCommand "docker build -f ./build/$image.package.Dockerfile --cache-from cbc-$imagePrefix-$image`:previous -t cbc-$imagePrefix-$image`:latest -t appcyc.azurecr.io/cbc-$imagePrefix-$image`:$buildVersion -t appcyc.azurecr.io/cbc-$imagePrefix-$image`:latest ."
+
+    # Remove the intermediate image tag
+    ExecuteCommand "docker rmi cbc-$image-build-intermediate"
 
     # Push to the repository
 
