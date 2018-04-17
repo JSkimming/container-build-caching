@@ -34,37 +34,37 @@ function RunBuild ([string] $image) {
     }
 
     # Tag the image with the previous image
-    ExecuteCommand "docker tag appcyc.azurecr.io/cbc-$imagePrefix-$image-build:latest cbc-$imagePrefix-$image-build:previous"
-    ExecuteCommand "docker tag appcyc.azurecr.io/cbc-$imagePrefix-$image`:latest cbc-$imagePrefix-$image`:previous"
+    ExecuteCommand "docker tag appcyc.azurecr.io/cbc-$imagePrefix-$image-build:latest appcyc.azurecr.io/cbc-$imagePrefix-$image-build:previous"
+    ExecuteCommand "docker tag appcyc.azurecr.io/cbc-$imagePrefix-$image`:latest appcyc.azurecr.io/cbc-$imagePrefix-$image`:previous"
 
     # Run the build
-    ExecuteCommand "docker build -f ./build/$image.build.Dockerfile --cache-from cbc-$imagePrefix-$image-build:previous -t cbc-$image-build-intermediate -t cbc-$imagePrefix-$image-build:latest -t appcyc.azurecr.io/cbc-$imagePrefix-$image-build:$buildVersion -t appcyc.azurecr.io/cbc-$imagePrefix-$image-build:latest ."
-    ExecuteCommand "docker build -f ./build/$image.package.Dockerfile --cache-from cbc-$imagePrefix-$image`:previous -t cbc-$imagePrefix-$image`:latest -t appcyc.azurecr.io/cbc-$imagePrefix-$image`:$buildVersion -t appcyc.azurecr.io/cbc-$imagePrefix-$image`:latest ."
+    ExecuteCommand "docker build -f ./build/$image.build.Dockerfile --cache-from appcyc.azurecr.io/cbc-$imagePrefix-$image-build:previous -t cbc-$image-build-intermediate -t appcyc.azurecr.io/cbc-$imagePrefix-$image-build:$buildVersion -t appcyc.azurecr.io/cbc-$imagePrefix-$image-build:latest ."
+    ExecuteCommand "docker build -f ./build/$image.package.Dockerfile --cache-from appcyc.azurecr.io/cbc-$imagePrefix-$image`:previous -t appcyc.azurecr.io/cbc-$imagePrefix-$image`:$buildVersion -t appcyc.azurecr.io/cbc-$imagePrefix-$image`:latest ."
 
     # Remove the intermediate image tag
     ExecuteCommand "docker rmi cbc-$image-build-intermediate"
 
     # Push to the repository
 
-    $previousBuildImage = & docker images cbc-$imagePrefix-$image-build:previous -q --no-trunc | Out-String
-    $latestBuildImage = & docker images cbc-$imagePrefix-$image-build:latest -q --no-trunc | Out-String
+    $previousBuildImage = & docker images appcyc.azurecr.io/cbc-$imagePrefix-$image-build:previous -q --no-trunc | Out-String
+    $latestBuildImage = & docker images appcyc.azurecr.io/cbc-$imagePrefix-$image-build:latest -q --no-trunc | Out-String
     if ($latestBuildImage -eq $previousBuildImage) {
         Write-Host "The build image has not changed '$latestBuildImage'."
     }
     else {
-        Write-Host "Pushing the new build image 'cbc-$imagePrefix-$image-build:latest'."
+        Write-Host "Pushing the new build image 'appcyc.azurecr.io/cbc-$imagePrefix-$image-build:latest'."
         ExecuteCommand "docker push appcyc.azurecr.io/cbc-$imagePrefix-$image-build:$buildVersion"
         ExecuteCommand "docker push appcyc.azurecr.io/cbc-$imagePrefix-$image-build:latest"
     }
 
-    $previousImage = & docker images cbc-$imagePrefix-$image`:previous -q --no-trunc | Out-String
-    $latestImage = & docker images cbc-$imagePrefix-$image`:latest -q --no-trunc | Out-String
+    $previousImage = & docker images appcyc.azurecr.io/cbc-$imagePrefix-$image`:previous -q --no-trunc | Out-String
+    $latestImage = & docker images appcyc.azurecr.io/cbc-$imagePrefix-$image`:latest -q --no-trunc | Out-String
     if ($latestImage -eq $previousImage) {
         Write-Host "The image has not changed '$latestImage'."
         return $false
     }
     else {
-        Write-Host "Pushing the new image 'cbc-$imagePrefix-$image`:latest'."
+        Write-Host "Pushing the new image 'appcyc.azurecr.io/cbc-$imagePrefix-$image`:latest'."
         ExecuteCommand "docker push appcyc.azurecr.io/cbc-$imagePrefix-$image`:$buildVersion"
         ExecuteCommand "docker push appcyc.azurecr.io/cbc-$imagePrefix-$image`:latest"
         return $true
