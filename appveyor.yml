@@ -24,7 +24,7 @@ branches:
 # Operating system (build VM template)
 image:
   - Visual Studio 2017
-  - Ubuntu
+  #- Ubuntu
 
 environment:
   DOCKER_PASSWORD:
