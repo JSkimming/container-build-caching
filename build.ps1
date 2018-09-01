@@ -1,7 +1,8 @@
 Param (
     [string] $buildVersion = "0.0.0.1",
     [string] $imagePrefix = "linux",
-    [bool] $pushOnSuccess = $false
+    [bool] $pushOnSuccess = $false,
+    [bool] $labelForDevelopment = $true
 )
 
 function IsNotCiBuild {
@@ -70,6 +71,10 @@ function RunBuild ([string] $image) {
         ExecuteCommand "docker push appcyc.azurecr.io/cbc-$imagePrefix-$image`:latest"
         return $true
     }
+
+   if ($labelForDevelopment) {
+       ExecuteCommand "docker tag appcyc.azurecr.io/cbc-$imagePrefix-$image`:latest cbc-$image`:latest"
+   }
 }
 
 # Pull the latest base images, these are used by all the builds and are also used as the previous image if one is not
