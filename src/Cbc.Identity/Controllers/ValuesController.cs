@@ -46,7 +46,7 @@ namespace Cbc.Identity.Controllers
         }
 
         /// <summary>
-        /// Gets the test value by Id
+        /// Gets the test value by Id.
         /// </summary>
         /// <param name="id">The id of the value.</param>
         /// <returns>The test value.</returns>
