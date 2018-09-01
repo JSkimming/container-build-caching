@@ -57,7 +57,7 @@ services:
 #       build configuration       #
 #---------------------------------#
 before_build:
-  - ps: docker login appcyc.azurecr.io --username appcyc --password $Env:DOCKER_PASSWORD
+  - ps: echo $Env:DOCKER_PASSWORD | docker login appcyc.azurecr.io --username appcyc --password-stdin
 
 for:
 -
