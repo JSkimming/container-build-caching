@@ -4,7 +4,7 @@ FROM cbc-api-build-intermediate as build
 
 # -- Stage 2 - Optimized Image suitable for Deployment --
 
-FROM microsoft/aspnetcore:2.0
+FROM microsoft/dotnet:2.1-aspnetcore-runtime
 
 ENV DOTNET_SKIP_FIRST_TIME_EXPERIENCE=true
 

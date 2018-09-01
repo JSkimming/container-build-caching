@@ -1,4 +1,4 @@
-FROM microsoft/aspnetcore-build:2.0
+FROM microsoft/dotnet:2.1-sdk
 
 ENV DOTNET_SKIP_FIRST_TIME_EXPERIENCE=true
 
