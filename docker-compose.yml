@@ -6,8 +6,20 @@ services:
     image: cbc-api
     ports:
       - "5000:80"
+    expose:
+      - "80"
 
   identity:
     image: cbc-identity
     ports:
       - "5001:80"
+    expose:
+      - "80"
+ 
+  proxy:
+    image: cbc-proxy
+    ports:
+      - "80:80"
+    links:
+      - api
+      - identity
