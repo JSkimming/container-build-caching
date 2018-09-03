@@ -104,11 +104,13 @@ $dotnetSdkImage = "microsoft/dotnet:2.1-sdk"
 $dotnetRuntimeImage = "microsoft/dotnet:2.1-aspnetcore-runtime"
 $nginxImage = "nginx:1"
 
-# Pull the latest base images, these are used by all the builds and are also used as the previous image if one is not
-# present in the remote container repository.
-ExecuteCommand "docker pull $dotnetSdkImage"
-ExecuteCommand "docker pull $dotnetRuntimeImage"
-ExecuteCommand "docker pull $nginxImage"
+if ($pushOnSuccess) {
+    # Pull the latest base images, these are used by all the builds and are also used as the previous image if one is
+    # not present in the remote container repository.
+    ExecuteCommand "docker pull $dotnetSdkImage"
+    ExecuteCommand "docker pull $dotnetRuntimeImage"
+    ExecuteCommand "docker pull $nginxImage"
+}
 
 RunBuild "api" $dotnetSdkImage $dotnetRuntimeImage
 RunBuild "identity" $dotnetSdkImage $dotnetRuntimeImage
