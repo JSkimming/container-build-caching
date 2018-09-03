@@ -21,7 +21,7 @@ function ExecuteCommand ([string] $command, [bool] $throwOnError = $true) {
     }
 }
 
-function RunBuild ([string] $image) {
+function RunBuild ([string] $image, [string] $initialBuildImage, [string] $initialPackageImage) {
 
     $buildCachedImage = ""
     $runtimeCachedImage = ""
@@ -31,13 +31,13 @@ function RunBuild ([string] $image) {
         $pulled = ExecuteCommand "docker pull appcyc.azurecr.io/cbc-$imagePrefix-$image-build:latest" $false
         if ($pulled -eq $false) {
             Write-Host "There is no latest build image 'appcyc.azurecr.io/cbc-$imagePrefix-$image-build:latest' using the base image."
-            ExecuteCommand "docker tag microsoft/dotnet:2.1-sdk appcyc.azurecr.io/cbc-$imagePrefix-$image-build:latest"
+            ExecuteCommand "docker tag $initialBuildImage appcyc.azurecr.io/cbc-$imagePrefix-$image-build:latest"
         }
 
         $pulled = ExecuteCommand "docker pull appcyc.azurecr.io/cbc-$imagePrefix-$image`:latest" $false
         if ($pulled -eq $false) {
             Write-Host "There is no latest image 'appcyc.azurecr.io/cbc-$imagePrefix-$image`:latest' using the base image."
-            ExecuteCommand "docker tag microsoft/dotnet:2.1-aspnetcore-runtime appcyc.azurecr.io/cbc-$imagePrefix-$image`:latest"
+            ExecuteCommand "docker tag $initialPackageImage appcyc.azurecr.io/cbc-$imagePrefix-$image`:latest"
         }
 
         # Tag the image with the previous image
@@ -100,12 +100,18 @@ function RunBuild ([string] $image) {
     }
 }
 
+$dotnetSdkImage = "microsoft/dotnet:2.1-sdk"
+$dotnetRuntimeImage = "microsoft/dotnet:2.1-aspnetcore-runtime"
+$nginxImage = "nginx:1"
+
 # Pull the latest base images, these are used by all the builds and are also used as the previous image if one is not
 # present in the remote container repository.
-ExecuteCommand "docker pull microsoft/dotnet:2.1-sdk"
-ExecuteCommand "docker pull microsoft/dotnet:2.1-aspnetcore-runtime"
+ExecuteCommand "docker pull $dotnetSdkImage"
+ExecuteCommand "docker pull $dotnetRuntimeImage"
+ExecuteCommand "docker pull $nginxImage"
 
-RunBuild "api"
-RunBuild "identity"
+RunBuild "api" $dotnetSdkImage $dotnetRuntimeImage
+RunBuild "identity" $dotnetSdkImage $dotnetRuntimeImage
+RunBuild "proxy" $nginxImage $nginxImage
 
 ExecuteCommand "docker image list"
