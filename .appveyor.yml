@@ -23,7 +23,6 @@ branches:
 
 # Operating system (build VM template)
 image:
-  - Visual Studio 2017
   - Ubuntu
 
 environment:
@@ -59,19 +58,8 @@ services:
 before_build:
   - ps: echo $Env:DOCKER_PASSWORD | docker login appcyc.azurecr.io --username appcyc --password-stdin
 
-for:
--
-  matrix:
-    only:
-      - image: Ubuntu
-  build_script:
+build_script:
   - ps: .\build.ps1 $Env:APPVEYOR_BUILD_VERSION "linux" $true $false
--
-  matrix:
-    except:
-      - image: Ubuntu
-  build_script:
-  - ps: .\build.ps1 $Env:APPVEYOR_BUILD_VERSION "win" $true $false
 
 #---------------------------------#
 #      artifacts configuration    #
